@@ -27,3 +27,6 @@ Steps used to create this application:
 23. Add an outlet for the task name text field.
 24. Add an IBAction for tapping the save button called `saveButtonTapped:`.
 25. Implement the methods to swipe to delete in `ACMTasksViewController`.
+26. Implement methods to persist task data to disk in `ACMTasksController`.
+27. Update `viewDidLoad` in `ACMTasksViewController` to load the tasks from file.
+28. Add the `UIApplicationDidEnterBackgroundNotification` notification observer and handler method to save the tasks.

@@ -36,4 +36,35 @@
 	[_tasks removeObjectAtIndex:index];
 }
 
+#pragma mark - Persistence
+
+- (void)loadTasksFromFile:(NSString*)fileName
+{
+	NSString *filePath = [self pathToFile:fileName];
+	
+	NSMutableArray *savedTasks = [NSMutableArray arrayWithContentsOfFile:filePath];
+	
+	NSLog(@"Loaded %i tasks from file: %@", savedTasks.count, filePath);
+	
+	if (savedTasks) {
+		_tasks = savedTasks;
+	}
+}
+
+- (void)saveTasksToFile:(NSString*)fileName
+{
+	NSString *filePath = [self pathToFile:fileName];
+	
+	NSLog(@"Saving %i tasks to file: %@", _tasks.count, filePath);
+	
+	[_tasks writeToFile:filePath atomically:YES];
+}
+
+- (NSString*)pathToFile:(NSString*)fileName
+{
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths firstObject];
+	return [NSString stringWithFormat:@"%@/%@", documentsDirectory, fileName];
+}
+
 @end

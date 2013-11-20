@@ -15,4 +15,7 @@
 - (void)addTask:(NSString*)task;
 - (void)removeTaskAtIndex:(NSInteger)index;
 
+- (void)loadTasksFromFile:(NSString*)fileName;
+- (void)saveTasksToFile:(NSString*)fileName;
+
 @end

@@ -11,6 +11,8 @@
 #import "ACMNewTaskViewController.h"
 #import "ACMTasksController.h"
 
+static NSString * kACMTasksDataFile = @"tasks.data";
+
 @interface ACMTasksViewController ()
 
 @end
@@ -24,6 +26,13 @@
     [super viewDidLoad];
 	
 	_tasksController = [[ACMTasksController alloc] init];
+	
+	[_tasksController loadTasksFromFile:kACMTasksDataFile];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(saveTasks)
+												 name:UIApplicationDidEnterBackgroundNotification
+											   object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -31,6 +40,13 @@
 	[super viewWillAppear:animated];
 	
 	[self.tableView reloadData];
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:UIApplicationDidEnterBackgroundNotification
+												  object:nil];
 }
 
 #pragma mark - Table view data source
@@ -80,6 +96,13 @@
 		[_tasksController removeTaskAtIndex:indexPath.row];
 		[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
 	}
+}
+
+#pragma mark -
+
+- (void)saveTasks
+{
+	[_tasksController saveTasksToFile:kACMTasksDataFile];
 }
 
 @end
